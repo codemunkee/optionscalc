@@ -1,0 +1,64 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+
+body {
+    background-color: lightblue;
+    margin-left: 20px;
+    font-family: Oswald, Geneva, sans-serif;
+}
+
+strong {
+    display: inline-block;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.heading {
+    display: inline-block;
+    font-size: 45px;
+}
+
+.content {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+
+}
+
+.original {
+    padding: 20px;
+}
+
+.already {
+    padding: 10px;
+}
+
+.calculate {
+    font-size: 24px;
+    max-width: 90px;
+    background-color: aquamarine;
+    padding: 10px;
+    outline-style: inset;
+    cursor: pointer;
+}
+
+.errorFeedback {
+    font-family: Arial;
+    font-weight:bold;
+    color: red;
+    margin-top: 25px;
+    width: 200px;
+    padding: 10px;
+    border-style: solid;
+    border-color: red;
+}
+
+.results {
+    font-family: Arial;
+    font-weight:bold;
+    margin-top: 25px;
+    width: 300px;
+    padding: 20px;
+    border-style: double;
+    border-color: black;
+    background-color: white;
+}

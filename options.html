@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Options Value</title>
+    <link rel="stylesheet" type="text/css" href="css/options.css">
+</head>
+<body>
+<div class="content">
+
+    <span class="heading">
+        Options Value
+        <img src="images/cash-dark.png" height="60" width="60" />
+    </span>
+
+    <div class="original">
+        <strong>General</strong>
+        <form>
+            Total Options: &nbsp;
+            <input id="totalOptions" type="text"><br>
+            Strike Price: &nbsp;
+            <input id="strikePrice" type="text"><br>
+            Est. Tax Rate: &nbsp;
+            <input id="taxRate" type="text"><br>
+            <br>Current Price: &nbsp;
+            <input id="currentPrice" type="text"><br>
+        </form>
+    </div>
+
+
+    <div class="already">
+        <strong>Options Already Sold</strong>
+        <img id="addSold" src="images/plus.png" height="22" width="22"/>
+        <form id="soldForm"></form>
+
+    </div>
+    <br>
+
+    <div class="calculate">Calculate</div>
+    <div id="results"></div>
+</div>
+
+<script src="js/options.js" type="text/javascript" ></script>
+</body>
+</html>
