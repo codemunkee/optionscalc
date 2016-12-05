@@ -12,6 +12,14 @@ strong {
     margin-bottom: 10px;
 }
 
+form {
+    display: table;
+}
+
+p     { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }
+
 .heading {
     display: inline-block;
     font-size: 45px;
@@ -29,7 +37,7 @@ strong {
 }
 
 .already {
-    padding: 10px;
+    padding: 20px;
 }
 
 .calculate {
