@@ -9,9 +9,13 @@ var formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
 });
 
+function stockValue(options, strikePrice, stockPrice, taxRate) {
+    return ((stockPrice * options) - (strikePrice * options)) *
+        (1 - (taxRate * .01));
+}
 
 // when someone clicks on plus sign to add shares that
-// have already been sold.
+// have already been sold we give them input boxes.
 $('#addSold').on('click', addSoldInput);
 
 // appends the form items to the already sold portion of the page
@@ -20,6 +24,24 @@ function addSoldInput() {
                   'Price: <input type="text" class="price"><br>';
 
     $('#soldForm').append(soldRow);
+}
+
+function calcAlreadySold(strikePrice, taxRate) {
+    var $quantities = $('.quantity');
+    var alreadySoldShares = 0;
+    var alreadySoldValue = 0;
+
+    // if we have input elements for options already sold
+    if($quantities.length) {
+        for (var i = 0; i < $quantities.length; i++) {
+            var quantitySold = parseFloat($('.quantity').eq(i).val());
+            var soldValue = parseFloat($('.price').eq(i).val());
+            alreadySoldValue += stockValue(quantitySold, strikePrice, soldValue, taxRate);
+            alreadySoldShares += quantitySold;
+        }
+    }
+
+    return [alreadySoldShares, alreadySoldValue];
 }
 
 // attach event handler to calculate "button"
@@ -57,39 +79,22 @@ function calculate() {
         return;
     }
 
-    function stockValue(options, strikePrice, stockPrice, taxRate) {
-       return ((stockPrice * options) - (strikePrice * options)) *
-                    (1 - (taxRate * .01));
+    // contains total number of shares already sold [0] and their value [1]
+    var alreadySold = calcAlreadySold($strikePrice.val(), $taxRate.val());
 
-    }
+    var remainingValue = stockValue($totalOptions.val() - alreadySold[0], $strikePrice.val(),
+        $currentPrice.val(), $taxRate.val());
 
-    // Go through the already sold form items
-    var elOptionQuantities = document.getElementsByClassName('quantity');
-    var elOptionPrices = document.getElementsByClassName('price');
-
-    // total shares already sold
-    var alreadySoldShares = 0;
-    // sum of dollars already earned
-    var alreadyDollars = 0;
-
-    for (var i=0; i < elOptionQuantities.length; i++ ) {
-
-        alreadySoldShares += elOptionQuantities[i].value;
-        alreadyDollars += stockValue(elOptionQuantities[i].value, $strikePrice.val(),
-                                     elOptionPrices[i].value, $taxRate.val());
-    }
-
-    var remainingValue = stockValue($totalOptions.val() - alreadySoldShares, $strikePrice.val(),
-                                    $currentPrice.val(), $taxRate.val());
-
-
-    if (alreadySoldShares === 0) {
+    // if we haven't already sold any shares
+    if (alreadySold[0] === 0) {
         $results.html('<div class="results">' + 'Total Value: ' +
-            formatter.format(remainingValue) + '</div>');
+                      formatter.format(remainingValue) + '</div>');
     } else {
-        $results.html('<div class="results">' + 'Sold value: ' +
-            formatter.format(alreadyDollars) + '<br>Remaining Value: ' + formatter.format(remainingValue) +
-            '<p><strong>Total Value: ' + formatter.format(alreadyDollars + remainingValue) + '</strong></div>');
+        $results.html('<div class="results">' +
+                      'Sold value: ' + formatter.format(alreadySold[1]) +
+                      '<br>Remaining Value: ' + formatter.format(remainingValue) +
+                      '<p><strong>Total Value: ' + formatter.format(alreadySold[1] + remainingValue) +
+                      '</strong></div>');
     }
 }
 
