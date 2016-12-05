@@ -12,64 +12,48 @@ var formatter = new Intl.NumberFormat('en-US', {
 
 // when someone clicks on plus sign to add shares that
 // have already been sold.
-var elAlreadySold = document.getElementById('addSold');
-elAlreadySold.addEventListener('click', addSoldInput, false);
+$('#addSold').on('click', addSoldInput);
 
 // appends the form items to the already sold portion of the page
 function addSoldInput() {
-    var elSoldForm = document.getElementById('soldForm');
-    var divNode = document.createElement('div');
-    elSoldForm.appendChild(divNode);
+    var soldRow = 'Quantity: <input type="text" class="quantity"> ' +
+                  'Price: <input type="text" class="price"><br>';
 
-    var textNode0 = document.createTextNode("Quantity: ");
-    var inputNode0 = document.createElement('input');
-    var textNode1 = document.createTextNode(" Price: ");
-    var inputNode1 = document.createElement('input');
-
-    inputNode0.setAttribute('type', 'text');
-    inputNode0.setAttribute('class', 'quantity');
-    inputNode1.setAttribute('type', 'text');
-    inputNode1.setAttribute('class', 'price');
-
-    divNode.appendChild(textNode0);
-    divNode.appendChild(inputNode0);
-    divNode.appendChild(textNode1);
-    divNode.appendChild(inputNode1);
+    $('#soldForm').append(soldRow);
 }
 
 // attach event handler to calculate "button"
-var elCalculate = document.getElementsByClassName('calculate')[0];
-elCalculate.addEventListener('click', calculate, false);
+$('.calculate').on('click', calculate);
 
 function calculate() {
 
-    var elResult = document.getElementById('results');
-    var elTotalOptions = document.getElementById('totalOptions');
-    var elStrikePrice = document.getElementById('strikePrice');
-    var elCurrentPrice = document.getElementById('currentPrice');
-    var elTaxRate = document.getElementById('taxRate');
+    var $totalOptions = $('#totalOptions');
+    var $strikePrice = $('#strikePrice');
+    var $currentPrice = $('#currentPrice');
+    var $taxRate = $('#taxRate');
+    var $results = $('#results');
 
     function error(msg) {
-        elResult.innerHTML = '<div class="errorFeedback">' + msg + '</div>';
+        $results.html('<div class="errorFeedback">' + msg + '</div>');
     }
 
-    if(!elTotalOptions.value) {
-        error('You must enter the total number of options.')
+    if(!$.isNumeric($totalOptions.val())) {
+        error('You must enter the total number of options.');
         return;
     }
 
-    if(!elStrikePrice.value) {
-        error('You must enter the strike price for your options.')
+    if(!$.isNumeric($strikePrice.val())) {
+        error('You must enter the strike price for your options.');
         return;
     }
 
-    if(!elCurrentPrice.value) {
-        error('You must enter the current price for your options.')
+    if(!$.isNumeric($currentPrice.val())) {
+        error('You must enter the current price for your options.');
         return;
     }
 
-    if(!elTaxRate.value) {
-        error('You must provide an expected tax rate (percent).')
+    if(!$.isNumeric($taxRate.val())) {
+        error('You must provide an expected tax rate (percent).');
         return;
     }
 
@@ -91,21 +75,21 @@ function calculate() {
     for (var i=0; i < elOptionQuantities.length; i++ ) {
 
         alreadySoldShares += elOptionQuantities[i].value;
-        alreadyDollars += stockValue(elOptionQuantities[i].value, elStrikePrice.value,
-                                     elOptionPrices[i].value, elTaxRate.value);
+        alreadyDollars += stockValue(elOptionQuantities[i].value, $strikePrice.val(),
+                                     elOptionPrices[i].value, $taxRate.val());
     }
 
-    var remainingValue = stockValue(elTotalOptions.value - alreadySoldShares, elStrikePrice.value,
-                                    elCurrentPrice.value, elTaxRate.value);
+    var remainingValue = stockValue($totalOptions.val() - alreadySoldShares, $strikePrice.val(),
+                                    $currentPrice.val(), $taxRate.val());
 
 
     if (alreadySoldShares === 0) {
-        elResult.innerHTML = '<div class="results">' + 'Total Value: ' +
-            formatter.format(remainingValue) + '</div>';
+        $results.html('<div class="results">' + 'Total Value: ' +
+            formatter.format(remainingValue) + '</div>');
     } else {
-        elResult.innerHTML = '<div class="results">' + 'Sold value: ' +
+        $results.html('<div class="results">' + 'Sold value: ' +
             formatter.format(alreadyDollars) + '<br>Remaining Value: ' + formatter.format(remainingValue) +
-            '<p><strong>Total Value: ' + formatter.format(alreadyDollars + remainingValue) + '</strong></div>';
+            '<p><strong>Total Value: ' + formatter.format(alreadyDollars + remainingValue) + '</strong></div>');
     }
 }
 
