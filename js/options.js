@@ -1,12 +1,8 @@
-/**
- * Created by russellnealis on 11/27/16.
- */
-
 // convert number to currency
 var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 2
 });
 
 function stockValue(options, strikePrice, stockPrice, taxRate) {
@@ -16,14 +12,21 @@ function stockValue(options, strikePrice, stockPrice, taxRate) {
 
 // when someone clicks on plus sign to add shares that
 // have already been sold we give them input boxes.
-$('#addSold').on('click', addSoldInput);
+$('.addSold').on('click', addSoldInput);
 
 // appends the form items to the already sold portion of the page
 function addSoldInput() {
-    var soldRow = 'Quantity: <input type="text" class="quantity"> ' +
-                  'Price: <input type="text" class="price"><br>';
+    var soldRow = '<div class="sold-row">Quantity: <input type="text" class="quantity"> ' +
+                  'Price: <input type="text" class="price">&nbsp;' +
+                  '<img class="delete" src="images/red-x.gif"><br></div>';
 
     $('#soldForm').append(soldRow);
+
+    // gives us the ability to remove the row later by clicking on the red x
+    var $delete = $('.delete');
+    $delete.on('click', function () {
+        $(this).parent().remove();
+    })
 }
 
 function calcAlreadySold(strikePrice, taxRate) {
@@ -34,7 +37,7 @@ function calcAlreadySold(strikePrice, taxRate) {
     // if we have input elements for options already sold
     if($quantities.length) {
         for (var i = 0; i < $quantities.length; i++) {
-            var quantitySold = parseFloat($('.quantity').eq(i).val());
+            var quantitySold = parseFloat($quantities.eq(i).val());
             var soldValue = parseFloat($('.price').eq(i).val());
             alreadySoldValue += stockValue(quantitySold, strikePrice, soldValue, taxRate);
             alreadySoldShares += quantitySold;

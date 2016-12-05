@@ -41,8 +41,16 @@ strong {
     cursor: pointer;
 }
 
+.addSold {
+    cursor: pointer;
+}
+
+.delete {
+    cursor: pointer;
+}
+
 .errorFeedback {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     font-weight:bold;
     color: red;
     margin-top: 25px;
