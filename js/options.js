@@ -100,3 +100,15 @@ function calculate() {
                       '</strong></div>');
     }
 }
+
+$('#cash').on('click', getPrice);
+
+function setPrice(value) {
+    $('#currentPrice').val(value);
+}
+
+function getPrice() {
+    $.getJSON("/stock", function (data) {
+        setPrice(data.l);
+    });
+}
