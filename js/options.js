@@ -100,4 +100,3 @@ function calculate() {
                       '</strong></div>');
     }
 }
-
