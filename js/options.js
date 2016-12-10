@@ -103,12 +103,19 @@ function calculate() {
 
 $('#cash').on('click', getPrice);
 
-function setPrice(value) {
-    $('#currentPrice').val(value);
+$('#test').html('russ');
+
+function setPrice(data) {
+    $('#currentPrice').val(data.l);
+    if (data.c < 0) {
+        $('#currentPrice').after('&nbsp;<img src="images/red-down.png" height="15" width="20" />');
+    } else {
+        $('#currentPrice').after('&nbsp;<img src="images/green-up.png" height="15" width="20"/>');
+    }
 }
 
 function getPrice() {
     $.getJSON("/stock", function (data) {
-        setPrice(data.l);
+        setPrice(data);
     });
 }

@@ -41,6 +41,7 @@ input { display: table-cell; }
 }
 
 .calculate {
+    margin-left: 50px;
     font-size: 24px;
     max-width: 90px;
     background-color: aquamarine;
